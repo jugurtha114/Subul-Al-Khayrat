@@ -14,4 +14,5 @@ class Context_jugu():
                 self.model = Consumer
 
     def get_context(self):
+        return self.model.objects.all().order_by('-provided_at')
         return self.model.objects.filter(priority=1).order_by('-provided_at')[:5]

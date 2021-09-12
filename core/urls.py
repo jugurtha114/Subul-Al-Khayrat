@@ -18,17 +18,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls.static import static
 import apps
 # APPs importation
 
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),          # Django admin route
+    path('admin/', admin.site.urls, name='admin'),          # Django admin route
     path("", include("apps.authentication.urls")), # Auth routes - login / register
-    path("", include("apps.app.urls"))  ,
+    path("", include("apps.app.urls", namespace='app'))  ,
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

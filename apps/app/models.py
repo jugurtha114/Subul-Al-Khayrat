@@ -14,6 +14,7 @@ def get_enum_jugu(of='package_type'):
             ('S', 'Small'),
             ('M', 'Medium'),
             ('L', 'Large'),
+            ('X', 'Extra Large'),
         )
 
     elif(of=='provider_type'):
@@ -27,6 +28,13 @@ def get_enum_jugu(of='package_type'):
         return (
             ('M', 'Male'),
             ('F', 'Female'),
+        )
+    
+    elif(of=='subscription_status'):
+        return (
+            ('A', 'Active'),
+            ('P', 'Pending'),
+            ('S', 'Suspended'),
         )
 
 
@@ -116,6 +124,37 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
     provided_at = models.DateTimeField(default=datetime.now)
     priority = models.IntegerField(verbose_name='Priority', default=1)
     profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
+    subscription_status = models.CharField(max_length=1, verbose_name='Subscription Status', choices=get_enum_jugu('subscription_status'))
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+    @property
+    def get_dict_jugu(self):
+        data_dict = {}
+
+        data_dict['name'] = self.first_name+' '+self.last_name
+        data_dict['wives_children'] = str(self.num_wives)+' ( '+ str(self.num_children)+' )'
+        data_dict['state_city'] = self.state+', '+self.city
+
+
+        return data_dict
+
+    def get_fields_jugu(self):
+        # list of some excluded fields
+        excluded_fields = ['id', 'pk']
+
+        # getting all fields that available in `Client` model,
+        # but not in `excluded_fields`
+        field_names = [field.name for field in Client._meta.get_fields() 
+                       if field.name not in excluded_fields]
+
+        return field_names
+        values = []
+        for field_name in field_names:
+            # get specific value from instanced object.
+            # and outputing as `string` value.
+            values.append('%s' % getattr(self, field_name))
+
+        # joining all string values.
+        return ' | '.join(values)

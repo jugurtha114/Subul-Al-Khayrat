@@ -14,10 +14,10 @@ from .backend.models_jugu import *
 #from models import Consumer, Package, Package_Type,  Provider, User_Profile, User
 
 
-@login_required(login_url="/login/")
+#@login_required(login_url="/login/")
 def index(request):
     context = {'segment': 'index'}
-    context['data_jugu'] = Context_jugu(page_name='index').get_context()
+    #context['data_jugu'] = Context_jugu(page_name='index').get_context()
     #html_template = loader.get_template('index.html')
     #return HttpResponse(html_template.render(context, request))
     return render(request, 'index.html', context=context)
@@ -31,7 +31,14 @@ def consumers(request):
 
     return render(request, 'consumers.html', context=context)
 
+@login_required(login_url="/login/")
+def dashboard(request):
+    context = {'segment': 'consumers'}
+    #context['data_jugu'] = Context_jugu(page_name='consumers').get_context()
 
+    return render(request, 'dashboard.html', context=context)
+
+'''
 
 @login_required(login_url="/login/")
 def pages(request):
@@ -43,12 +50,14 @@ def pages(request):
 
         load_template = request.path.split('/')[-1]
 
-        if load_template == 'admin':
+        if load_template in ['admin']:
             return HttpResponseRedirect(reverse('admin:index'))
+
         context['segment'] = load_template
 
         html_template = loader.get_template(load_template)
         #return HttpResponse('Access forbidden by jugu!')
+        #return render(request, 'dashboard.html', context=context)
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:
@@ -56,8 +65,11 @@ def pages(request):
         html_template = loader.get_template('page-404.html')
         return HttpResponse(html_template.render(context, request))
 
-    except:
+    except Exception as e:
+        print('-'*130)
+        print(e)
+        print('-'*130)
         html_template = loader.get_template('page-500.html')
         return HttpResponse(html_template.render(context, request))
-
+'''
 

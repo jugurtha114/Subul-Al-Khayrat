@@ -36,7 +36,7 @@ DEBUG = True
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 #--------------------------------------------------------------------
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 INTERNAL_IPS = ['127.0.0.1']
 
 
@@ -107,8 +107,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
+        # le nom de notre base de donnees creee precedemment
+        'NAME': 'subul_al_khayarat_db',
+        'USER': 'jugu',  # attention : remplacez par votre nom d'utilisateur
+        'PASSWORD': '01140114',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -164,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-if(not DEBUG or 1):
+if(not DEBUG):
     try:
         from .production_settings import *
     except ImportError:
