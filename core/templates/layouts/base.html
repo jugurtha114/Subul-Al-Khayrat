@@ -10,7 +10,7 @@
 <!-- Primary Meta Tags -->
 
 <title>
-    Django Volt Dashboard - {% block title %}{% endblock %} | AppSeed
+    Subul Al-Khayarat - {% block title %}{% endblock %}
 </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,11 +51,24 @@
 
 -->
 
+<style>
+    .select2-selection--single{
+        height:50px !important;  
+    }
+    .provide_btn_jugu{
+        padding:2px;
+        padding-left:3px;
+        padding-rightt:3px;
+        border-radius: 0px , 0px, 10px, 0px;
+        text-align:center;
+    }
 
+        
+</style>
 
 
 <link type="text/css" href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/@fortawesome/fontawesome-free/css/all.min.css"  rel="stylesheet">
-<link type="text/css"  href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+<link type="text/css" href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 <link type="text/css" href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/notyf/notyf.min.css" rel="stylesheet">
 <link type="text/css" href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/fullcalendar/main.min.css" rel="stylesheet">
 <link type="text/css" href="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/vendor/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
@@ -66,12 +79,34 @@
 
 
 
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+
+{# Load the tag library #}
+{% load django_bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{# bootstrap_css #}
+{# bootstrap_javascript #}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
 
 </head>
 <body>
 
     {% include 'includes/sidebar.html' %}
-    
+
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+    {# https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html #}
+    {{ form.media }}
+
+
     <main class="content">
 
       {% include 'includes/navigation.html' %}
@@ -86,7 +121,8 @@
 
   {% include 'includes/scripts.html' %}
 
-
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %} {% endblock javascripts %}
     
 </body>
 </html>

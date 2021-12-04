@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 from django.utils.translation import activate
+from django.utils import timezone
 
 
 
@@ -44,23 +45,40 @@ def get_enum_jugu(of='package_type'):
 class Extra_jugu(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False )
 
     class Meta:
         abstract = True
 
 
+# class Extra_UserProfile_Info_jugu(models.Model):
+#     post_code = models.CharField(max_length=40, verbose_name='Postal Code')
+#     post_name = models.CharField(max_length=40, verbose_name='Postal Name AR')
+#     post_name_ascii = models.CharField(max_length=40, verbose_name='Postal Name')
+#     post_address = models.CharField(max_length=40, verbose_name='Postal Address AR')
+#     post_address_ascii = models.CharField(max_length=40, verbose_name='Postal Address AR')
+#     commune_id = models.CharField(max_length=40, verbose_name='City')
+#     commune_name = models.CharField(max_length=40, verbose_name='City')
+#     commune_name_ascii = models.CharField(max_length=40, verbose_name='City')
+#     daira_name = models.CharField(max_length=40, verbose_name='Postal Code AR')
+#     daira_name_ascii = models.CharField(max_length=40, verbose_name='Postal Code')
+#     wilaya_code = models.CharField(max_length=40, verbose_name='State code')
+#     wilaya_name = models.CharField(max_length=40, verbose_name='City')
+#     wilaya_name_ascii = models.CharField(max_length=40, verbose_name='City')
+
+
+
 # add commun user info for tables
 class Extra_UserProfile_Info_jugu(models.Model):
     phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12)
-    birthday = models.DateField(null=True, blank=True),
+    birthday = models.DateField(null=True, blank=True)
     #profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
-    gender = models.CharField(max_length=1,  choices=get_enum_jugu('gender_type'))
+    gender = models.SlugField(max_length=1,  choices=get_enum_jugu('gender_type'))
     address = models.CharField(max_length=100, verbose_name='Address')
     #address_num = models.IntegerField( verbose_name='Address Number')
-    city = models.CharField(max_length=40, verbose_name='City')
-    state = models.CharField(max_length=40, verbose_name='State')
-    zip = models.CharField(max_length=30, verbose_name='Zip Code')
+    city = models.CharField(null=True, blank=True, max_length=40, verbose_name='City')
+    state = models.CharField(null=True, blank=True, max_length=40, verbose_name='State')
+    zip = models.CharField(null=True, blank=True, max_length=30, verbose_name='Zip Code')
 
     class Meta:
         abstract = True
@@ -85,8 +103,7 @@ class Provider(Extra_UserProfile_Info_jugu, Extra_jugu):
 
 class User_Profile(Extra_UserProfile_Info_jugu):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
-    phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12) 
-    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'users/img/profile_img/')
+    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'users/img/profile_img/', null=True, blank=True)
 
     def __str__(self):
         return self.user.first_name+' '+self.user.last_name+' ('+self.user.username+')'
@@ -94,7 +111,7 @@ class User_Profile(Extra_UserProfile_Info_jugu):
 
 class Package(Extra_jugu):
     provider = models.ForeignKey(Provider,on_delete=models.CASCADE,)
-    size = models.CharField(max_length=1, verbose_name='Package size', choices=get_enum_jugu('package_type'))
+    size = models.SlugField( max_length=1, verbose_name='Package size', choices=get_enum_jugu('package_type'))
     type = models.ForeignKey(Package_Type,on_delete=models.CASCADE, verbose_name='Package type')
     cost = models.DecimalField(max_digits=9, decimal_places=2, null=False, default=0.00)
     name = models.CharField( max_length=100, blank=False)
@@ -109,44 +126,57 @@ class Package(Extra_jugu):
         #ordering = ['headline']
 
 
-# Create your models here.
 class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
-    
-    first_name = models.CharField( max_length=30, blank=None, null=False)
+ 
+    first_name = models.CharField(max_length=30, blank=None, null=False)
     last_name = models.CharField(max_length=30, blank=None, null=False)
     email = models.EmailField(unique=True,  null=True)
     id_card_img = models.ImageField(verbose_name='Identity Card Image')
     num_wives = models.IntegerField( verbose_name='Number of wives', default=0)
     num_children = models.IntegerField( verbose_name='Number of Children', default=0)
-    id_card_num = models.IntegerField( unique=True, null=False)
-    num_packages = models.IntegerField( unique=True, null=False, verbose_name='Number of packages received')
+    id_card_num = models.IntegerField(unique=True, null=False)
+    num_packages = models.IntegerField(  null=False, verbose_name='Number of packages received')
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     provided_at = models.DateTimeField(default=datetime.now)
     priority = models.IntegerField(verbose_name='Priority', default=1)
-    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
-    subscription_status = models.CharField(max_length=1, verbose_name='Subscription Status', choices=get_enum_jugu('subscription_status'))
+    profile_img = models.ImageField(verbose_name='Profile Picture', blank=True, null=True, upload_to='consumers/img/profile_img/')
+    subscription_status = models.SlugField(max_length=1, verbose_name='Subscription Status', choices=get_enum_jugu('subscription_status'))
+    is_responsable = models.BooleanField(null=False, blank=False)
+    family = models.ForeignKey('self', on_delete=models.DO_NOTHING,null=True, blank=True,  verbose_name='Responsable',)
 
     def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
+        is_res = ''
+        if self.is_responsable:
+            is_res = ' (Responsable)'
+        return "%s %s %s" % (self.first_name, self.last_name, is_res)
+
+
 
     @property
     def get_dict_jugu(self):
         data_dict = {}
 
-        data_dict['name'] = self.first_name+' '+self.last_name
+        data_dict['name'] = f'{self.first_name} {self.last_name}'
         data_dict['wives_children'] = str(self.num_wives)+' ( '+ str(self.num_children)+' )'
-        data_dict['state_city'] = self.state+', '+self.city
-
-
+        data_dict['state_city'] = f'{self.state}, {self.city}'
         return data_dict
+
+    @property
+    def is_providable(self):
+        return ((timezone.now() - self.provided_at).total_seconds() > 864000)
+
+
+
+    class Meta:
+        ordering = ["-provided_at"]
 
     def get_fields_jugu(self):
         # list of some excluded fields
         excluded_fields = ['id', 'pk']
 
-        # getting all fields that available in `Client` model,
+        # getting all fields that available in `Consumer` model,
         # but not in `excluded_fields`
-        field_names = [field.name for field in Client._meta.get_fields() 
+        field_names = [field.name for field in Consumer._meta.get_fields() 
                        if field.name not in excluded_fields]
 
         return field_names
@@ -158,3 +188,11 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
 
         # joining all string values.
         return ' | '.join(values)
+
+
+# class Family(Extra_jugu):
+#     has_house = models.BooleanField(null=True, blank=True, default=True)
+#     members = models.IntegerField(verbose_name='Family members')
+
+    # def __str__(self):
+    #     return f'{self.responsable.last_name} Family'

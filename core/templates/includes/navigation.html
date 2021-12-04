@@ -14,7 +14,7 @@
                     </svg>
                 </button>
                 <!-- Search form -->
-                <form class="navbar-search form-inline" id="navbar-search-main">
+                <form class="navbar-search form-inline" id="navbar-search-main" method="post">
                     <div class="input-group input-group-merge search-bar">
                         <span class="input-group-text" id="topbar-addon">
                             <svg class="icon icon-xs" x-description="Heroicon name: solid/search"
@@ -25,8 +25,21 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                         </span>
+
+
                         <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search"
                             aria-label="Search" aria-describedby="topbar-addon">
+                        {% csrf_token %}
+                            {% comment %} {{ form.as_p }} {% endcomment %}
+
+                            <table style="display: none">
+                                {{ view.formset.empty_form }}
+                            </table>
+
+                            <table>
+                                {{ view.formset }}
+                            </table>
+                                                
                     </div>
                 </form>
                 <!-- / Search form -->

@@ -43,6 +43,10 @@ INTERNAL_IPS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    #django-autocomplete-light-3.8.2
+    'dal',
+    'dal_select2',
+    ################################
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
 
     # Third-Party APPS
     'debug_toolbar',
+    "django_bootstrap5",
 
     # Local APPS
     'apps.app',
@@ -69,6 +74,10 @@ MIDDLEWARE = [
 
     #django toolbar
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+
+    # Jugu Middleware
+    #'apps.app.middleware.global_request_middleware.GlobalRequestMiddleware',
 ]
 
 
@@ -160,7 +169,7 @@ STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+#LOGIN_REDIRECT_URL = '/login/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

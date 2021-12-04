@@ -19,22 +19,24 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-import apps
+
+from apps.app import views
 # APPs importation
 
 
 
 urlpatterns = [
+    path("", views.Index_View.as_view(), name='home'),
     path('admin/', admin.site.urls, name='admin'),          # Django admin route
+    path("app/", include("apps.app.urls", namespace="app")),
     path("", include("apps.authentication.urls")), # Auth routes - login / register
-    path("", include("apps.app.urls", namespace='app'))  ,
+    
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
-        #url(r'^__debug__/', include(debug_toolbar.urls)),
-    ]
+    urlpatterns.insert(0,path('__debug__/', include(debug_toolbar.urls)))
+ 
+  
 

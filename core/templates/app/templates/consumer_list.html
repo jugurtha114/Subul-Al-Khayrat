@@ -1,0 +1,302 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% get_media_prefix as MEDIA_URL %}
+
+{% block title %} Consumers {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .gender_jugu {color: blue; font-weight: bold; font-size: 9px !important;}
+    .provide_btn{
+        color: green; 
+        padding-top:2px;
+        padding-bottom: 2px;
+
+    }
+    .provide_btn:hover{color:lime; box-shadow: 0px 0px 10px green}
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+
+
+
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item"><a href="#"><span class="fas fa-home"></span></a></li>
+                    <li class="breadcrumb-item"><a href="#">Volt</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Users List</li>
+                </ol>
+            </nav>
+            <h2 class="h4">Users List</h2>
+            <p class="mb-0">Your web analytics dashboard template.</p>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{% url 'app:consumer_new' %}" class="btn btn-sm btn-dark"><span class="fas fa-plus me-2"></span> New User</a>
+            <div class="btn-group ms-2 ms-lg-3">
+                <button type="button" class="btn btn-sm btn-outline-primary">Share</button>
+                <button type="button" class="btn btn-sm btn-outline-primary">Export</button>
+            </div>
+        </div>
+    </div>
+    <div class="table-settings mb-4">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-12 col-lg-4 d-flex">
+                <div class="input-group me-2 me-lg-3">
+                    <span class="input-group-text"><span class="fas fa-search"></span></span>
+                    <input id="search_consumer_jugu" type="text" class="form-control" placeholder="Search">
+                </div>
+                
+                <select style="width:200px" id="filter_jugu" class="form-select" aria-label="Message select example 2">
+                    {% comment %} <option  value="-1">All</option> {% endcomment %}
+                    <option  selected value="1"><span class="fas fa-check"><span> Responsables</option>
+                    <option value="2"><span class="fas fa-check"><span> Non-Responsables</option>
+ 
+                </select>
+            </div>
+            <div class="col-3 col-lg-8 text-right">
+                <div class="btn-group me-1">
+                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="icon icon-sm icon-gray pt-1">
+                            <span class="fas fa-sliders-h"></span>
+                        </span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end pb-0">
+                        <span class="small ps-3 fw-bold text-dark">Show</span>
+                        <a class="dropdown-item d-flex fw-bold" href="#">10 <span class="icon icon-small ms-auto"><span
+                                    class="fas fa-check"></span></span></a>
+                        <a class="dropdown-item fw-bold" href="#">20</a>
+                        <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="icon icon-sm icon-gray pt-1">
+                            <span class="fas fa-cog"></span>
+                        </span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
+                        <span class="small ps-3 fw-bold text-dark">Show</span>
+                        <a class="dropdown-item fw-bold" href="?page={{ page_obj.number }}&paginate_by=10"> 10 <span class="fas fa-check"> </span> </a>
+                        <a class="dropdown-item fw-bold" href="?paginate_by=20">20</a>
+                        <a class="dropdown-item fw-bold" href="?paginate_by=50">50</a>
+                        <a class="dropdown-item fw-bold" href="?paginate_by=100">100</a>
+                        <a class="dropdown-item fw-bold" href="?paginate_by=200">200</a>
+                        <a class="dropdown-item fw-bold rounded-bottom" href="?paginate_by=500">500</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card card-body shadow-sm table-wrapper table-responsive">
+
+
+
+
+        <div class="d-flex mb-3">
+            <select class="form-select fmxw-150" aria-label="Message select example">
+                <option selected>Bulk Action</option>
+                <option value="1">Send Email</option>
+                <option value="2">Change Group</option>
+                <option value="3">Delete User</option>
+            </select>
+            <button class="btn btn-sm px-3 btn-secondary ms-3">Apply</button>
+        </div>
+
+
+
+
+
+
+
+                            <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="h6 modal-title text-danger">Do you want to delete the Item?</h2>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form name="delete_form_jugu" action="{% url 'app:consumer_delete' 0 %}" method="POST">
+                                        {% csrf_token %}
+                                            <div class="modal-body">
+                                                <p>You're about to Delete an Item Are you sure you want to delete the selected item ?</p>
+                                                </br>
+                                                <ul>
+                                                <li class="text-info "> Press "Close" to discard the operation.</li>
+                                                <li class="text-danger "> Press "Delete" to Delete the Item.</li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                                <button onclick="document.delete_form_jugu.action ='{% url 'app:consumer_delete' 0%}';" type="button" class="btn btn-link text-gray-600 ms-auto" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+            
+                            <div class="modal fade" id="modal-provide"  tabindex="-1" aria-labelledby="modal-achievement" bis_skin_checked="1" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-tertiary modal-dialog-centered" role="document" bis_skin_checked="1">
+                                    <div class="modal-content" bis_skin_checked="1">
+                                        <button type="button" class="btn-close theme-settings-close fs-6 ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal-header mx-auto" bis_skin_checked="1">
+                                            <p class="lead mb-0 text-white">Do you want to provide Package to user : <span style="bolder" class="costumer_name">Unknown</span> ?</p>
+                                        </div>
+                                        <hr>
+                                        <div class="modal-body pt-0" bis_skin_checked="1">
+                                            <div class="py-3 px-5 text-center" bis_skin_checked="1">
+                                                <span class="modal-icon display-1 text-white">
+                                                    <svg class="icon icon-lg text-gray-200" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+
+<path d="M1.735 17.832l12.054 6.081 2.152-6.081-12.053-5.758-2.153 5.758zM16.211 17.832l2.045 6.027 12.484-6.081-2.422-5.704-12.107 5.758zM-0.247 7.212l4.144 4.843 12.053-6.134-3.928-5.005-12.269 6.296zM32.247 7.319l-12.001-6.403-4.090 5.005 12.162 6.134 3.929-4.736zM3.175 19.353l-0.041 5.839 12.713 5.893v-10.98l-1.816 4.736-10.856-5.488zM16.291 20.105v10.979l12.674-5.893v-5.799l-10.99 5.46-1.684-4.747z"></path>
+                                                
+                                                    </svg>
+                                                </span>
+                                                <h3 class="h3 modal-title mb-4 text-white costumer_name">Unknown User</h3>
+                                                <p class="mb-4 text-white">You're about to Provide a Package to <span style="bolder" class="costumer_name">Unknown</span>, this will reset the the "Last time provided" data.</p>
+                                                <div class="progress mb-0" bis_skin_checked="1">
+                                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" bis_skin_checked="1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% csrf_token %}
+                                        <div class="modal-footer d-flex justify-content-center pt-0 pb-3" bis_skin_checked="1">
+                                            <button id="provide_btn_jugu2" type="button" class="btn btn-sm btn-white text-tertiary" data-bs-dismiss="modal">Provide a Package</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+             
+        {% include 'includes/consumer_list_content.html' %}
+               
+
+           
+       
+
+
+
+
+
+
+
+        <div   class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            <nav aria-label="Page navigation example">
+
+                <ul class="pagination mb-0">
+
+
+                    
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                                {% comment %} <li class="page-item"><a class="page-link" href="?page={{page_obj.number|add:'1'}}">{{page_obj.number|add:'1'}} </a></li> {% endcomment %}
+                            {% else%}  
+                                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                            {% endif %}
+
+                            <li class="page-item"><a class="page-link active" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+                            
+                            {% if page_obj.has_next %}                       
+                                {% comment %} <li class="page-item"><a class="page-link" href="?page={{page_obj.number|add:'1'}}">{{page_obj.number|add:'1'}}<li class="page-item"><a class="page-link" href="?page={{ page_obj.number+1 }}">{{ page_obj.number+1 }}</a></li> {% endcomment %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>                        
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last	&raquo;</a></li>
+                            {% else%}  
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last	&raquo;</a></li>
+                            {% endif %}
+
+              
+
+
+                </ul>
+            </nav>
+            <div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{ page_obj.number }} </b> out of <b>{{ page_obj.paginator.num_pages }}</b> entries</div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+{% block javascripts %} 
+
+    <script>
+        $("#search_consumer_jugu").keyup(function(){
+            
+            var ff=$("#filter_jugu").val();console.log(ff)
+            if(this.value.length==0)
+                {$("#content_jugu").load("/app/consumers/?q=___&paginate_by=10&filter="+ff);return;}
+            if(this.value.length<=1)return;
+
+            $("#content_jugu").html('<div class="d-flex justify-content-center"><div class="spinner-border text-success" role="status"></div></div>');
+            $("#content_jugu").load("/app/consumers/?q="+this.value+"&filter="+ff+"");
+        });
+
+
+        var provide_id = 0;
+        var provide_btn_1 = "";
+        var parovide_parrent="";
+
+        $(document).on("click", "#provide_btn_jugu", function () {
+            provide_btn_1 = $(this);
+            parovide_parrent= provide_btn_1.parent().parent().parent();
+            provide_id = this.dataset.id;
+            provide_name = this.dataset.name;
+            $('.costumer_name').html(''+this.dataset.name+'');
+        });
+
+
+        $("#provide_btn_jugu2").click(function(){
+            csrfmiddlewaretoken_jugu = $('#modal-provide input[name="csrfmiddlewaretoken"]').val();
+            $(this).html('  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...')
+            $.post("/app/consumers/",
+            {
+                id: provide_id,
+                csrfmiddlewaretoken: csrfmiddlewaretoken_jugu
+            },
+            function(data, status){
+                if(status=='success'){
+                    provide_btn_1.prop('disabled', true);
+                    console.log(parovide_parrent);
+                    parovide_parrent.css({"background": "rgba(0,150,0,0.1)", "border": "1px solid green", "border-radius": "30px"});
+                    Swal.fire(
+                    'Package Status',
+                    data,
+                    status
+                    )
+                    //alert("Data: " + data + "\nStatus: " + status);
+                }
+            });
+            $(this).html('Provide an other Package')
+        }); 
+    </script>
+
+
+{% endblock javascripts %}

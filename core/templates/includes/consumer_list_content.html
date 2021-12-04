@@ -1,0 +1,154 @@
+        <table id="content_jugu" class="table user-table table-hover align-items-center">
+            <thead>
+                <tr>
+                    <th class="border-bottom">
+                        <div class="form-check dashboard-check">
+                            <input class="form-check-input" type="checkbox" value="" id="userCheck55">
+                            <label class="form-check-label" for="userCheck55">
+                            </label>
+                        </div>
+                    </th>
+
+                {{ consumer.get_dict_jugu.name }}
+                    <th class="border-bottom">Name</th>
+                    <th class="border-bottom">Last Time Provided</th>
+                    <th class="border-bottom">No. Packages</th>
+                    <th class="border-bottom">Verified</th>
+                    <th class="border-bottom">Phone Number</th>
+                    <th class="border-bottom">State & City</th>
+                    <th class="border-bottom">Wives & Children</th>
+      
+                    <th class="border-bottom">Action</th>
+                
+
+
+                </tr>
+            </thead>
+
+
+         <tbody>
+                {% for consumer in data_jugu%}
+
+
+
+
+                <tr class="jugu_{% cycle 'odd' 'even' %}">
+                    <td>
+                        <div class="form-check dashboard-check">
+                            <input class="form-check-input" type="checkbox" value="" id="userCheck2">
+                            <label class="form-check-label" for="userCheck2">
+                            </label>
+                        </div>
+                    </td>
+
+
+                    <td>
+                        
+                        <a href="#" class="d-flex align-items-center">
+
+                            {% if consumer.profile_img %}
+                            <img src="{{ consumer.profile_img.url }}" class="user-avatar rounded-circle me-3" alt="Avatar">
+                            {% else %}                          
+                                <div class="user-avatar bg-secondary me-3"> <span>{{ consumer.first_name|make_list|first|upper }}{{ consumer.last_name|make_list|first|upper }}</span></div>
+                            {% endif %}
+                            
+                            <div class="d-block">
+                                
+                                    <span class="fw-bold">  
+                                   
+                                    {% if consumer.gender == 'M' %}
+                                        <spanv class="fa fa-user"></span>
+                                    {% elif consumer.gender == 'F' %}
+                                        <spanv class="fa fa-user text-danger "></span>
+                                    {% endif %}
+                                    
+                                    {{ consumer.first_name }} {{ consumer.last_name }}</span>
+                                <div class="small text-gray">
+                                    {% if consumer.email %}
+                                        {{ consumer.email }}
+                                    {% else %}
+                                        No email available
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+
+
+
+                    <td style="padding:auto; text-align:center;"><span class="fw-normal"><span class="fa fa-clock text-info me-2"> </span>{{ consumer.provided_at|timesince }}</span>
+
+                        <div class="small text-gray text-monospace">
+                        {% if consumer.is_providable  and consumer.is_responsable%}
+                        
+                            <button type="button" id="provide_btn_jugu" class="btn btn-outline-primary btn-sm provide_btn" data-bs-toggle="modal" data-bs-target="#modal-provide" data-id="{{consumer.id}}" data-name="{{consumer.first_name}} {{consumer.last_name}}"> Provide </button>
+                        {% else %}
+                            <button type="button" class="btn btn-outline-disabled btn-sm provide_btn" disabled><i class="fa fa-warning me-2"></i> Cannot Provide </button>
+                        {% endif %}
+                        </div>
+
+                    </td>
+
+
+                    <td><span class="fw-normal"><span class="fas fa-box-open text-warning me-2"></span> <span class="fw-bold">{{ consumer.num_packages }}</span> </span></td>
+
+                    <td><span class="fw-normal"><span class="fas fa-check-circle text-success me-2"></span>{{ consumer.get_subscription_status_display }}</span>
+                        <div class="small text-gray text-monospace"><span class="fa fa-id-card  me-2"></span><span class="text-monospace" style="font-weight:bolder;"> {{ consumer.id_card_num }}</span></div>
+                    </td>
+
+                    <td><span class="fw-normal"><span class="fas fa-phone text-primary me-2"></span>{{ consumer.phone_number }}</span>
+                        <div class="small text-gray text-center">
+                                                         
+                            {% if consumer.gender == 'M' %}
+                                <span class="fas fa-male text-info"></span>
+                            {% elif consumer.gender == 'F' %}
+                                <span class="fas fa-female text-danger"></span>
+                            {% endif %}
+                                {{ consumer.get_gender_display }}
+
+                        </div>
+                    </td>
+
+                    <td><span class="fw-normal"><span class="fas fa-map-marked text-primary me-2"></span>{{ consumer.get_dict_jugu.state_city }}</span></td>
+
+                    <td><span class="fw-normal">{{ consumer.num_wives }} <span class="fas fa-users text-primary me-2"> </span> ( {{consumer.num_children}}<span class="fa fa-baby text-success"></span></span> )</td>
+
+
+
+
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="icon icon-sm pt-1">
+                                    <span class="fas fa-ellipsis-h icon-dark"></span>
+                                </span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu py-0">
+                                <a class="dropdown-item rounded-top" href="{% url 'app:consumer_list' %}?responsable={{ consumer.id}}"> <span class="fas fa-users me-2"></span> Family members</a>
+                                <a class="dropdown-item" href="#"><span class="fas fa-eye me-2"></span>View Details</a>
+                                <a class="dropdown-item" href="{% url 'app:consumer_edit' consumer.id %}"><span class="fas fa-edit me-2"></span>Edit Details</a>
+                                <a class="dropdown-item text-danger rounded-bottom" ><span class="fas fa-user-times me-2"></span>Suspend</a>
+                            
+                            </div>
+                        </div>
+                        <a class="" onclick="document.delete_form_jugu.action ='{% url 'app:consumer_delete' consumer.id %}';"  data-bs-toggle="modal" data-bs-target="#modal-default">
+                            <span class="fas fa-trash text-danger ms-2" title="Delete" data-bs-toggle="tooltip"></span>
+                        </a>
+                    </td>
+
+
+
+                </tr>
+                
+            {% empty %}
+            <i > No User available yet</i>
+
+            {% endfor %}
+
+        </tbody>
+ </table>
+
+
+

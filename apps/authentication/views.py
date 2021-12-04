@@ -7,6 +7,7 @@ Copyright (c) 2021 - Jugurtha-Green
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
+from django.urls import reverse
 
 
 def login_view(request):
@@ -21,8 +22,12 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect("/")
+                if not user.is_active:
+                    msg = 'User account is Disabled'
+                else:
+                    login(request, user)
+                    print('[+] User : {user} logged in!')
+                    return redirect(reverse('app:consumer_list'))
             else:
                 msg = 'Invalid credentials'
         else:
