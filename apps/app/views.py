@@ -29,7 +29,7 @@ from dal import autocomplete
 from .forms import ConsumerForm
 
 #from .backend.models_jugu import *
-from .models import Consumer, Package, Package_Type,  Provider, User_Profile, User
+from .models import Consumer, Package, Package_Type,  Provider
 from apps.app import forms
 
 #from apps.app.middleware.global_request_middleare import GlobalRequestMiddleware
@@ -69,9 +69,7 @@ class GeneralSearchAutocomplete(autocomplete.Select2QuerySetView):
         qs = Consumer.objects.select_related().filter().all()
 
         if self.q:
-    
             qs = Consumer.objects.select_related().filter(name__istartswith=self.q).order_by('-provided_at')
-
         return qs
 
     # def get_result_label(self, result):
@@ -124,11 +122,6 @@ class Consumer_ListView( ListView):
                     is_success = 1
             return HttpResponse(f'The package N° {consumer.num_packages} is successfully provided for {consumer.first_name} {consumer.last_name} !')
 
-
-
-
-
-
     def get(self, request, *args, **kwargs) -> HttpResponse:
         self.paginate_by = int(request.GET.get('paginate_by', 10)) or 10
         q = request.GET.get('q')
@@ -146,8 +139,8 @@ class Consumer_ListView( ListView):
                 Q(last_name__icontains=q) | Q(first_name__icontains=q), is_responsable=is_resp).order_by('-provided_at')[:self.paginate_by]
             if request.is_ajax():
                 if q == '___':
-                    self.queryset = Consumer.objects.select_related().order_by(
-                        '-provided_at').all()[:self.paginate_by]
+                    self.queryset = Consumer.objects.select_related().order_by('-provided_at').all()[:self.paginate_by]
+                    
                 html = render_to_string(            
                     template_name="includes/consumer_list_content.html",
                     context={"data_jugu": self.queryset}

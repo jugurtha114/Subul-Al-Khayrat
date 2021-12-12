@@ -6,7 +6,8 @@ Copyright (c) 2021 - Jugurtha-Green
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from apps.authentication.models import User_Profile
+from django.forms import inlineformset_factory
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -58,3 +59,16 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+
+class EditUser_Form(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email',]
+
+
+class UserProfile_Form(forms.ModelForm):
+    class Meta:
+        model = User_Profile
+        fields = ( 'profile_img', 'gender','phone_number',  'birthday', 'address', 'zip', 'city', 'state', )
+

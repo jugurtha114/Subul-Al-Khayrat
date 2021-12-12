@@ -266,7 +266,7 @@
 
         $(document).on("click", "#provide_btn_jugu", function () {
             provide_btn_1 = $(this);
-            parovide_parrent= provide_btn_1.parent().parent().parent();
+            provide_parrent= provide_btn_1.parent().parent().parent();
             provide_id = this.dataset.id;
             provide_name = this.dataset.name;
             $('.costumer_name').html(''+this.dataset.name+'');
@@ -284,8 +284,10 @@
             function(data, status){
                 if(status=='success'){
                     provide_btn_1.prop('disabled', true);
-                    console.log(parovide_parrent);
-                    parovide_parrent.css({"background": "rgba(0,150,0,0.1)", "border": "1px solid green", "border-radius": "30px"});
+                    console.log(provide_parrent);
+                    provide_parrent.css({"background": "rgba(0,150,0,0.1)", "border": "0px solid green", "border-radius": "30px"});
+                    nnn = provide_parrent.find('.num-packages-jugu').html()
+                    provide_parrent.find('.num-packages-jugu').html(nnn/1+1).css( {"color": "black", "font-weight":"bolder"})
                     Swal.fire(
                     'Package Status',
                     data,

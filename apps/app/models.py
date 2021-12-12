@@ -24,12 +24,6 @@ def get_enum_jugu(of='package_type'):
             ('P', 'Person'),
             ('O', 'Other'),
         )
-
-    elif(of=='gender_type'):
-        return (
-            ('M', 'Male'),
-            ('F', 'Female'),
-        )
     
     elif(of=='subscription_status'):
         return (
@@ -101,12 +95,6 @@ class Provider(Extra_UserProfile_Info_jugu, Extra_jugu):
         return self.name+'_Package'
 
 
-class User_Profile(Extra_UserProfile_Info_jugu):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
-    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'users/img/profile_img/', null=True, blank=True)
-
-    def __str__(self):
-        return self.user.first_name+' '+self.user.last_name+' ('+self.user.username+')'
 
 
 class Package(Extra_jugu):
@@ -135,7 +123,7 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
     num_wives = models.IntegerField( verbose_name='Number of wives', default=0)
     num_children = models.IntegerField( verbose_name='Number of Children', default=0)
     id_card_num = models.IntegerField(unique=True, null=False)
-    num_packages = models.IntegerField(  null=False, verbose_name='Number of packages received')
+    num_packages = models.IntegerField(default=1,  null=False, verbose_name='Number of packages received')
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     provided_at = models.DateTimeField(default=datetime.now)
     priority = models.IntegerField(verbose_name='Priority', default=1)

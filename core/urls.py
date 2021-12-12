@@ -29,7 +29,8 @@ urlpatterns = [
     path("", views.Index_View.as_view(), name='home'),
     path('admin/', admin.site.urls, name='admin'),          # Django admin route
     path("app/", include("apps.app.urls", namespace="app")),
-    path("", include("apps.authentication.urls")), # Auth routes - login / register
+    # Auth routes - login / register
+    path("", include("apps.authentication.urls", namespace='account')),
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
