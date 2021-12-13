@@ -154,10 +154,13 @@
             </div>
         </div>
         <div class="col-12 col-xl-4">
+
             <div class="row">
+                
                 <div class="col-12 mb-4">
                     <div class="card shadow border-0 text-center p-0">
-                        <div class="profile-cover rounded-top" data-background="{{ user.user_profile.cover_img.url }}"></div>
+                        <div class="profile-cover rounded-top bg-image d-flex justify-content-center align-items-center"  style="
+    background-image: url('{{ user.user_profile.cover_img.url }}');height: 30vh;" ></div>
                         <div class="card-body pb-5">
                             <img src="{{ user.user_profile.profile_img.url }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
                             <h4 class="h3">
@@ -177,7 +180,7 @@
                         </div>
                       </div>
                 </div>
-                <div class="col-12">
+                {% comment %} <div class="col-12">
                     <div class="card card-body border-0 shadow mb-4">
                         <h2 class="h5 mb-4">Select profile photo</h2>
                         <div class="d-flex align-items-center">
@@ -206,7 +209,7 @@
                         <div class="d-flex align-items-center">
                             <div class="me-3">
                                 <!-- Avatar -->
-                                <img class="rounded avatar-xl" src="/static/assets/img/profile-cover.jpg" alt="change cover">
+                                <img class="rounded avatar-xl" src="{{form1.cover_img}}" alt="change cover">
                             </div>
                             <div class="file-field">
                                 <div class="d-flex justify-content-xl-center ms-xl-3">
@@ -222,7 +225,8 @@
                               </div>                                        
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
+
             </div>
         </div>
     </div>

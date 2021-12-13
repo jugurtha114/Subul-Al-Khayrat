@@ -70,5 +70,5 @@ class EditUser_Form(forms.ModelForm):
 class UserProfile_Form(forms.ModelForm):
     class Meta:
         model = User_Profile
-        fields = ( 'profile_img', 'gender','phone_number',  'birthday', 'address', 'zip', 'city', 'state', )
+        fields = ('profile_img', 'cover_img', 'gender', 'phone_number', 'birthday', 'address', 'zip', 'city', 'state', )
 

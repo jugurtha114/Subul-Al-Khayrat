@@ -19,8 +19,8 @@ def get_enum_jugu(of='package_type'):
 
 class User_Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', null=False, blank=False)
-    profile_img = models.ImageField( verbose_name='Profile Picture', upload_to='users/img/profile_img/', null=True, blank=True)
-    profile_img = models.ImageField(verbose_name='Cover Picture', upload_to='users/img/cover_img/', null=True, blank=True)
+    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to='users/img/profile_img/', null=True, blank=True, default='default/img/profile_img/1.png')
+    cover_img = models.ImageField(verbose_name='Cover Picture', upload_to='users/img/cover_img/', null=True, blank=True,  default='default/img/cover_img/1.jpg')
     phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12)
     birthday = models.DateField(null=True, blank=True)
     #profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
@@ -33,3 +33,11 @@ class User_Profile(models.Model):
 
     def __str__(self):
         return self.user.first_name+' '+self.user.last_name+' ('+self.user.username+')'
+
+
+    # @property
+    # def get_photo_url(self):
+    #     if self.photo and hasattr(self.photo, 'url'):
+    #         return self.photo.url
+    #     else:
+    #         return "/static/images/user.jpg"

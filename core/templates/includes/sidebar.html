@@ -1,10 +1,11 @@
 
+{% load static %}
 
 
 
     <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
-        <a class="navbar-brand me-lg-5" href="/">
-            <img class="navbar-brand-dark" src="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v141/img/brand/light.svg" alt="Volt logo" /> <img class="navbar-brand-light" src="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v141/img/brand/dark.svg" alt="Volt logo" />
+        <a class="navbar-brand me-lg-5" href="{% url 'app:consumer_list' %}">
+            <img class="navbar-brand-dark" src="{% static 'logo.png' %}" alt="logo" /> <img class="navbar-brand-light" src="{% static 'logo.png' %}" alt="logo" />
         </a>
         <div class="d-flex align-items-center">
             <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +16,8 @@
 
 <nav id="sidebarMenu" class="sidebar d-md-block bg-dark text-white collapse" data-simplebar>
     <div class="sidebar-inner px-4 pt-3">
-        <div
+
+        {% comment %} <div
             class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
             <div class="d-flex align-items-center">
                 <div class="user-avatar lg-avatar me-4">
@@ -32,15 +34,16 @@
                 <a href="#sidebarMenu" class="fas fa-times" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
                     aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
             </div>
-        </div>
+        </div> {% endcomment %}
+
         <ul class="nav flex-column pt-3 pt-md-0">
             <li class="nav-item {% if 'home' in segment %} active {% endif %}">
                 <a href="/" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
-                        <img src="https://appsrv1-147a1.kxcdn.com/volt-dashboard-pro-v131/img/brand/light.svg"
-                            height="20" width="20" alt="Volt Logo">
+                        <img src="{% static 'logo.png' %}"
+                            height="45" width="45" alt="Logo">
                     </span>
-                    <span class="mt-1 sidebar-text">Volt Overview</span>
+                    <span class="mt-1 sidebar-text">Home</span>
                 </a>
             </li>
             <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
@@ -60,6 +63,7 @@
                                 <span class="sidebar-text">Overview</span>
                             </a>
                         </li>
+{% comment %}                         
                         <li class="nav-item ">
                             <a href="/dashboard-traffic-sources.html" class="nav-link">
                                 <span class="sidebar-text-contracted">T</span>
@@ -71,13 +75,31 @@
                                 <span class="sidebar-text-contracted">P</span>
                                 <span class="sidebar-text">Product Analysis</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
+
+
                     </ul>
                 </div>
             </li>
 
+            <li class="nav-item  {% if 'consumers' in segment %} active {% endif %}">
+                <a href="{% url 'app:consumer_list' %}" class="nav-link d-flex align-items-center justify-content-between">
+                    <span>
+                        <span class="sidebar-icon"><span class="fas fa-th"></span></span>
+                        <span class="sidebar-text">Consumers</span>
+                    </span>
+                </a>
+            </li>
 
-
+            <li class="nav-item  {% if 'settings' in segment %} active {% endif %}">
+                <a href="{% url 'account:settings' %}" class="nav-link d-flex align-items-center justify-content-between">
+                    <span>
+                        <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
+                        <span class="sidebar-text">Settings</span>
+                    </span>
+                </a>
+            </li>
+{% comment %} 
             <li class="nav-item  {% if 'consumers' in segment %} active {% endif %}">
                 <a href="{% url 'app:consumer_list' %}" class="nav-link d-flex align-items-center justify-content-between">
                     <span>
@@ -314,7 +336,8 @@
                     <span class="sidebar-icon"><span class="fas fa-shopping-cart"></span></span>
                     <span class="sidebar-text">Buy now</span>
                 </a>
-            </li>
+            </li> {% endcomment %}
+
         </ul>
     </div>
 </nav>

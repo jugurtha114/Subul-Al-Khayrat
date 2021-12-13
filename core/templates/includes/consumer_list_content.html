@@ -44,7 +44,7 @@
 
                     <td>
                         
-                        <a href="#" class="d-flex align-items-center">
+                        <a href="{% url 'app:consumer_list' %}?responsable={{ consumer.id}}" class="d-flex align-items-center">
 
                             {% if consumer.profile_img %}
                             <img src="{{ consumer.profile_img.url }}" class="user-avatar rounded-circle me-3" alt="Avatar">
@@ -143,8 +143,9 @@
                 </tr>
                 
             {% empty %}
-            <i > No User available yet</i>
-
+            
+                <p class="text-center auto"> No Consumers available yet</p>
+            
             {% endfor %}
 
         </tbody>
