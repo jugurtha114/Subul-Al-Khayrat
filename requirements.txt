@@ -1,13 +1,13 @@
-django
+django==3.2.8
 psycopg2
 whitenoise
 #python-decouple
 asgiref
 beautifulsoup4
 dj-database-url
-#django-autocomplete-light
+django-autocomplete-light
 django-bootstrap5
-django-debug-toolbar
+#django-debug-toolbar
 django-heroku
 gunicorn
 Pillow
