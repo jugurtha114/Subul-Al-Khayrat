@@ -1,4 +1,0 @@
-django
-psycopg2
-whitenoise
-#python-decouple

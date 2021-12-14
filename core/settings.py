@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import django_heroku
 from pathlib import Path
 import os
 
@@ -185,3 +185,4 @@ if(not DEBUG):
     except ImportError:
         print('You are using production envirement !')
 
+django_heroku.settings(locals())
