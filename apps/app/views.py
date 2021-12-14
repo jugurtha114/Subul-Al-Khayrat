@@ -35,6 +35,14 @@ from apps.app import forms
 #from apps.app.middleware.global_request_middleare import GlobalRequestMiddleware
 search_vector_jugu = SearchVector('last_name', weight='C') + SearchVector('first_name', weight='C')
 
+
+def verified(view):
+    def _decorated(request, *args, **kwargs):
+        if not request.user.user_profile.is_verified:
+            return HttpResponseRedirect(reverse_lazy('account:locked'))
+        return view(request, *args, **kwargs)
+    return _decorated
+
 class ConsumerAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -81,10 +89,11 @@ class Index_View(TemplateView):
     template_name = 'index.html'
     #form_class = FormExample
     def get(self, request):
-        return render(request, self.template_name)
+        context = {'segment': 'home'}
+        return render(request, self.template_name, context=context)
 
 
-decorators = [ login_required(login_url='/login/')]
+decorators = [login_required(login_url='/login/'), verified]
 @method_decorator(decorators, name='dispatch')
 class Consumer_ListView( ListView):
     #template_name_suffix = '_list'
@@ -102,6 +111,11 @@ class Consumer_ListView( ListView):
     # .order_by('-provided_at')
     queryset = Consumer.objects.select_related().filter(is_responsable=True).order_by('-provided_at').all()
     template_name = 'app/templates/consumer_list.html'
+
+    def get_context_data(self, **kwargs):
+        rr= super().get_context_data(**kwargs)
+        rr['segment']='consumer_list'
+        return rr
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -162,6 +176,7 @@ class Consumer_ListView( ListView):
 
     # def get_queryset(self):
 
+
     #     query = self.request.GET.get('q')  
     #     if query:
     #         object_list = self.model.objects.select_related().filter(last_name__icontains=query)
@@ -169,6 +184,7 @@ class Consumer_ListView( ListView):
     #         object_list = self.model.objects.select_related().all()
     #     return object_list
 
+@method_decorator(verified, name='dispatch')
 class ConsumerCreateView( LoginRequiredMixin, CreateView):
     template_name = 'app/templates/consumer_form.html'
     form_class = ConsumerForm 
@@ -196,6 +212,7 @@ class ConsumerCreateView( LoginRequiredMixin, CreateView):
             return render(request, self.template_name, {'form': form})
 
 
+@method_decorator(verified, name='dispatch')
 class ConsumerUpdateView(LoginRequiredMixin, UpdateView):
     #model = Consumer
     form_class = ConsumerForm
@@ -206,9 +223,7 @@ class ConsumerUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('app:consumer_list')
 
 
-
-
-
+@method_decorator(verified, name='dispatch')
 class ConsumerDeleteView(LoginRequiredMixin, DeleteView):
     model = Consumer
     success_url = reverse_lazy('app:consumer_list')
@@ -221,10 +236,9 @@ def consumers(request):
     return render(request, 'consumers.html', context=context)
 
 @login_required(login_url="/login/")
+@verified
 def dashboard(request):
-    context = {'segment': 'consumers'}
-    #context['data_jugu'] = Context_jugu(page_name='consumers').get_context()
-
+    context = {'segment': 'dashboard'}
     return render(request, 'dashboard.html', context=context)
 
 

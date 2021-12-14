@@ -71,13 +71,7 @@
                         </span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end pb-0">
-                        <span class="small ps-3 fw-bold text-dark">Show</span>
-                        <a class="dropdown-item d-flex fw-bold" href="#">10 <span class="icon icon-small ms-auto"><span
-                                    class="fas fa-check"></span></span></a>
-                        <a class="dropdown-item fw-bold" href="#">20</a>
-                        <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
-                    </div>
+
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1"
@@ -128,18 +122,22 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h2 class="h6 modal-title text-danger">Do you want to delete the Item?</h2>
+                                            <h2 class="h6 modal-title text-danger">Do you want to delete : <span class="fw-bolder remove_modal_full_name">Unknown</span>?</h2>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form name="delete_form_jugu" action="{% url 'app:consumer_delete' 0 %}" method="POST">
+                                        <form name="delete_form_jugu"  action="{% url 'app:consumer_delete' 0 %}" method="POST">
                                         {% csrf_token %}
                                             <div class="modal-body">
-                                                <p>You're about to Delete an Item Are you sure you want to delete the selected item ?</p>
+                                                <div class="card shadow border-0 text-center p-0" id="card_modal_remove"  style="background:rgba(200,200,200,0.97);"">
+                                                    <div  style="background:rgba(20,20,20,0.7);color:yellow; margin-top:40%" class="rounded-top align-items-center" >
+                                                        <p>You're about to Delete an Item Are you sure you want to delete <span class="remove_modal_full_name fw-bolder">Unknown</span> ?</p>
+                                                    </div>
+                                                </div>
                                                 </br>
-                                                <ul>
-                                                <li class="text-info "> Press "Close" to discard the operation.</li>
-                                                <li class="text-danger "> Press "Delete" to Delete the Item.</li>
-                                                </ul>
+                                                    <ul>
+                                                        <li class="text-info "> Press "Close" to discard the operation.</li>
+                                                        <li class="text-danger "> Press "Delete" to Delete the Item.</li>
+                                                    </ul>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -158,7 +156,7 @@
                                     <div class="modal-content" bis_skin_checked="1">
                                         <button type="button" class="btn-close theme-settings-close fs-6 ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                                         <div class="modal-header mx-auto" bis_skin_checked="1">
-                                            <p class="lead mb-0 text-white">Do you want to provide Package to user : <span style="bolder" class="costumer_name">Unknown</span> ?</p>
+                                            <p class="lead mb-0 text-white">Do you want to provide Package to user : <span class="costumer_name fw-bolder">Unknown</span> ?</p>
                                         </div>
                                         <hr>
                                         <div class="modal-body pt-0" bis_skin_checked="1">
@@ -171,7 +169,7 @@
                                                     </svg>
                                                 </span>
                                                 <h3 class="h3 modal-title mb-4 text-white costumer_name">Unknown User</h3>
-                                                <p class="mb-4 text-white">You're about to Provide a Package to <span style="bolder" class="costumer_name">Unknown</span>, this will reset the the "Last time provided" data.</p>
+                                                <p class="mb-4 text-white">You're about to Provide a Package to <span class="costumer_name fw-bolder">Unknown</span>, this will reset the the "Last time provided" data.</p>
                                                 <div class="progress mb-0" bis_skin_checked="1">
                                                     <div class="progress-bar bg-secondary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" bis_skin_checked="1"></div>
                                                 </div>
@@ -259,7 +257,18 @@
             $("#content_jugu").load("/app/consumers/?q="+this.value+"&filter="+ff+"");
         });
 
+    
+        function remove_consumer(action_url, id, firs_name, last_name, img_url){
+            document.delete_form_jugu.action =action_url;
+            $('.remove_modal_full_name').html(firs_name+" "+ last_name);
+            $('#card_modal_remove').css({"background-image": "url("+img_url+")",
+                                        "background-repeat": "no-repeat", 
+                                        "background-position": "center",
+                                        'height': '30vh'});
 
+            //console.log(id+ firs_name+ last_name+ img_url)
+        };
+    
         var provide_id = 0;
         var provide_btn_1 = "";
         var parovide_parrent="";
@@ -271,6 +280,7 @@
             provide_name = this.dataset.name;
             $('.costumer_name').html(''+this.dataset.name+'');
         });
+
 
 
         $("#provide_btn_jugu2").click(function(){

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from apps.authentication.models import User_Profile
 from django.forms import inlineformset_factory
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -38,6 +39,13 @@ class SignUpForm(UserCreationForm):
         widget=forms.EmailInput(
             attrs={
                 "placeholder": "Email",
+                "class": "form-control"
+            }
+        ))
+    phone_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Phone Number",
                 "class": "form-control"
             }
         ))

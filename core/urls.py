@@ -26,7 +26,7 @@ from apps.app import views
 
 
 urlpatterns = [
-    path("", views.Index_View.as_view(), name='home'),
+    path("", views.Consumer_ListView.as_view(), name='home'),
     path('admin/', admin.site.urls, name='admin'),          # Django admin route
     path("app/", include("apps.app.urls", namespace="app")),
     # Auth routes - login / register
