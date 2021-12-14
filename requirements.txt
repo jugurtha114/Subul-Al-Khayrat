@@ -7,7 +7,7 @@ beautifulsoup4
 dj-database-url
 django-autocomplete-light
 django-bootstrap5
-#django-debug-toolbar
+django-debug-toolbar
 django-heroku
 gunicorn
 Pillow
