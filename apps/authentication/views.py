@@ -135,7 +135,7 @@ def register_user(request):
             form.save()
             u=form.instance          
             #print(f'creating pk= {u}')
-            profile = User_Profile.objects.create(user=u, phone_number = form.cleaned_data['phone_number'])
+            profile = User_Profile.objects.create(user=u, phone_number=form.cleaned_data['phone_number'], is_verified=False)
             profile.is_verified=False
             #profile.phone_number = form.cleaned_data['phone_number']
             # content_type = ContentType.objects.get_for_model(User)
