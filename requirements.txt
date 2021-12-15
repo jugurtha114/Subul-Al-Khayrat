@@ -1,5 +1,4 @@
 django==3.2.8
-django-autocomplete-light
 psycopg2
 whitenoise
 #python-decouple
@@ -18,4 +17,3 @@ six
 soupsieve
 sqlparse
 whitenoise
-django-autocomplete-light
