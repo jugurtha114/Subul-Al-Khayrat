@@ -17,7 +17,7 @@ MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware', ]
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 DATABASES['default'] = dj_database_url.config()
 
