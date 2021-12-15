@@ -31,6 +31,11 @@ def get_enum_jugu(of='package_type'):
             ('P', 'Pending'),
             ('S', 'Suspended'),
         )
+    elif(of == 'gender_type'):
+        return (
+            ('M', 'Male'),
+            ('F', 'Female'),
+        )
 
 
 

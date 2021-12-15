@@ -12,6 +12,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'subul-el-khayarat.herokuapp.com']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware', ]
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'jugu-rv85%(tt*w7&wo(xj+euzmr%!qc!3(5evtt$l8jvt@5la0e)=z'
 
