@@ -185,4 +185,4 @@ if(not DEBUG):
     except ImportError:
         print('You are using production envirement !')
 
-django_heroku.settings(locals())
+

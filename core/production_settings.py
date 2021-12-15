@@ -16,3 +16,5 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'subul-el-khayarat.herokuapp.com']
 SECRET_KEY = 'jugu-rv85%(tt*w7&wo(xj+euzmr%!qc!3(5evtt$l8jvt@5la0e)=z'
 
 DATABASES['default'] = dj_database_url.config()
+
+django_heroku.settings(locals())
