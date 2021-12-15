@@ -45,7 +45,7 @@ class ConsumerForm(forms.ModelForm):
         model = Consumer
         fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'num_wives', 'num_children',
                   'id_card_num', 'subscription_status', 'num_packages', 'package', 'priority', 'profile_img', 
-                  'gender', 'address', 'city', 'state', 'zip', 'is_responsable', 'family']
+                  'gender', 'address', 'city', 'state', 'zip', 'is_responsable', 'description', 'family']
         exclude = ('created_by', 'created_at', 'updated_at', )
         widgets = {
             'family': autocomplete.ModelSelect2(url='app:consumer_autocomplete', 
