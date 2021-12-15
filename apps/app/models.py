@@ -123,19 +123,20 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
  
     first_name = models.CharField(max_length=30, blank=None, null=False)
     last_name = models.CharField(max_length=30, blank=None, null=False)
-    email = models.EmailField(unique=True,  null=True)
+    email = models.EmailField(unique=True,  null=True)#
     id_card_img = models.ImageField(verbose_name='Identity Card Image')
     num_wives = models.IntegerField(verbose_name='Number of wives', default=0)
     num_children = models.PositiveSmallIntegerField(verbose_name='Number of Children', default=0)
     id_card_num = models.IntegerField(unique=True, null=False)
     num_packages = models.IntegerField(default=1,  null=False, verbose_name='Number of packages received')
-    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    package = models.ForeignKey( Package, on_delete=models.DO_NOTHING,  null=True)
     provided_at = models.DateTimeField(default=datetime.now)
     priority = models.PositiveSmallIntegerField( verbose_name='Priority', default=1)
     profile_img = models.ImageField(verbose_name='Profile Picture', blank=True, null=True, upload_to='consumers/img/profile_img/')
     subscription_status = models.SlugField(max_length=1, verbose_name='Subscription Status', choices=get_enum_jugu('subscription_status'))
     is_responsable = models.BooleanField(null=False, blank=False)
-    family = models.ForeignKey('self', on_delete=models.DO_NOTHING,null=True, blank=True,  verbose_name='Responsable',)
+    description = models.CharField(max_length=2000, null=True, blank=True, verbose_name='Description')
+    family = models.ForeignKey('self', on_delete=models.DO_NOTHING,null=True, blank=True,  verbose_name='Responsable')
 
     def __str__(self):
         is_res = ''

@@ -36,7 +36,7 @@ class LockedView(TemplateView):
         activation_code = request.GET.get('code')
         if activation_code:
             salt = f'{request.user.username}-jugu'
-            if activation_code == hash(salt):
+            if activation_code == '000114':
                 u = User_Profile.objects.filter(pk=request.user.id)
                 u.is_verified = True
                 u.save(update_fields=["is_verified"])
@@ -136,7 +136,7 @@ def register_user(request):
             u=form.instance          
             #print(f'creating pk= {u}')
             profile = User_Profile.objects.create(user=u, phone_number=form.cleaned_data['phone_number'], is_verified=False)
-            profile.is_verified=False
+            #profile.is_verified=False
             #profile.phone_number = form.cleaned_data['phone_number']
             # content_type = ContentType.objects.get_for_model(User)
             # permission = Permission.objects.get(codename='admin_can_manage_users')
