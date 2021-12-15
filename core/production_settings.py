@@ -3,6 +3,7 @@ import django_heroku
 import dj_database_url
 from .settings import *
 from pathlib import Path
+import os
 
 
 DEBUG = True# False
@@ -16,7 +17,7 @@ MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware', ]
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jugu-rv85%(tt*w7&wo(xj+euzmr%!qc!3(5evtt$l8jvt@5la0e)=z'
+SECRET_KEY = os.environ('SECRET_KEY')
 
 DATABASES['default'] = dj_database_url.config()
 
