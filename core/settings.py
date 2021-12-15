@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import django_heroku
+
 from pathlib import Path
 import os
 
@@ -36,7 +36,7 @@ DEBUG = True
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 #--------------------------------------------------------------------
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'subul-el-khayarat.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 INTERNAL_IPS = ['127.0.0.1']
 
 
