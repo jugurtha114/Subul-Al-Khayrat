@@ -1,5 +1,6 @@
 import django_heroku
 ######################### Production Settings #####################
+import dj_database_url
 from .settings import *
 from pathlib import Path
 
@@ -18,3 +19,4 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'subul-el-khayarat.herokuapp.com']
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'jugu-rv85%(tt*w7&wo(xj+euzmr%!qc!3(5evtt$l8jvt@5la0e)=z'
 
+DATABASES['default'] = dj_database_url.config()
