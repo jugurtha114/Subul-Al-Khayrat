@@ -36,7 +36,7 @@ class LockedView(LoginRequiredMixin, TemplateView):
         if activation_code:
             salt = f'{request.user.username}-jugu'
             if activation_code == '000114':
-                u = User_Profile.objects.filter(pk=request.user.id)
+                u = User_Profile.objects.get(user=request.user)
                 u.is_verified = True
                 u.save(update_fields=["is_verified"])
                 return HttpResponseRedirect(reverse_lazy('app:consumer_list'))

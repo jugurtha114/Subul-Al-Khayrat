@@ -28,7 +28,7 @@
                                  
 
                         <div class="text-center text-md-center mb-4 mt-md-0">
-                            <div class="avatar avatar-lg mx-auto mb-3"><img class="rounded-circle" alt="Image placeholder" src="{{ user.user_profile.profile_img.url }}"></div>
+                            <div class="avatar avatar-lg mx-auto mb-3"><img class="rounded-circle" alt="Image placeholder" src="{{ user.user_profile.get_profile_img_url }}"></div>
                             <h1 class="h3">{{user.get_full_name}} ({{user.username}})</h1>
                             <p class="text-gray">Your acount is temporarly locked for privacy reasons.<br/> In order to activate it, you need to get an Activation Code from Admin</p>
                             <button type="button" onclick="location.href = 'https://t.me/Jugutha_Green';" class="btn btn-success">Contact the Admin</button>

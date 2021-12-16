@@ -143,11 +143,11 @@
                         <div class="small text-gray text-center">
                                                          
                             {% if consumer.gender == 'M' %}
-                                <span class="fas fa-male text-info me-2"></span>Male
+                                <span class="fas fa-male text-info me-2"></span>
                             {% elif consumer.gender == 'F' %}
-                                <span class="fas fa-female text-danger me-2"></span>Female
+                                <span class="fas fa-female text-danger me-2"></span>
                             {% endif %}
-                                {{ consumer.get_gender_display }}
+                                {{ consumer.get_gender_display }} {% if consumer.is_responsable %} (Responsable){% else %} - {% endif %}
 
                         </div>
                     </td>

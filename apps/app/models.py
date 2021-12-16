@@ -69,7 +69,7 @@ class Extra_jugu(models.Model):
 
 # add commun user info for tables
 class Extra_UserProfile_Info_jugu(models.Model):
-    phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12)
+    phone_number = models.CharField( null=True, max_length=12)#unique=True, blank=None, null=False,
     birthday = models.DateField(null=True, blank=True)
     #profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
     gender = models.SlugField(max_length=1,  choices=get_enum_jugu('gender_type'))
@@ -123,7 +123,7 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
  
     first_name = models.CharField(max_length=30, blank=None, null=False)
     last_name = models.CharField(max_length=30, blank=None, null=False)
-    email = models.EmailField(unique=True,  null=True)#
+    email = models.EmailField( null=True)#unique=True, 
     id_card_img = models.ImageField(verbose_name='Identity Card Image')
     num_wives = models.IntegerField(verbose_name='Number of wives', default=0)
     num_children = models.PositiveSmallIntegerField(verbose_name='Number of Children', default=0)

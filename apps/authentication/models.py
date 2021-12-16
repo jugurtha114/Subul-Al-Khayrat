@@ -22,7 +22,7 @@ class User_Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', null=False, blank=False)
     profile_img = models.ImageField(verbose_name='Profile Picture', upload_to='users/img/profile_img/', null=True, blank=True)
     cover_img = models.ImageField(verbose_name='Cover Picture', upload_to='users/img/cover_img/', null=True, blank=True)
-    phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12)
+    phone_number = models.CharField( blank=True, null=True, max_length=12)#unique=True,
     birthday = models.DateField(null=True, blank=True)
     #profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
     gender = models.SlugField( max_length=1,  choices=get_enum_jugu('gender_type'))
