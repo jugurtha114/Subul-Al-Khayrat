@@ -59,7 +59,7 @@
                     <ul class="flex-column nav">
                         <li class="nav-item  {% if 'dashboard' in segment %} active {% endif %}">
                             <a href="{% url 'app:dashboard' %}" class="nav-link">
-                                <span class="sidebar-text-contracted">O</span>
+                                <span class="sidebar-text-contracted"><span class="fas fa-chart-line"></span></span>
                                 <span class="sidebar-text">Overview</span>
                             </a>
                         </li>
@@ -85,11 +85,21 @@
             <li class="nav-item  {% if 'consumer_list' in segment %} active {% endif %}">
                 <a href="{% url 'app:consumer_list' %}" class="nav-link d-flex align-items-center justify-content-between">
                     <span>
-                        <span class="sidebar-icon"><span class="fas fa-th"></span></span>
+                        <span class="sidebar-icon"><span class="fas fa-user-friends"></span></span>
                         <span class="sidebar-text">Consumers</span>
                     </span>
                 </a>
             </li>
+
+            <li class="nav-item  {% if 'consumer_new' in segment %} active {% endif %}">
+                <a href="{% url 'app:consumer_new' %}" class="nav-link d-flex align-items-center justify-content-between">
+                    <span>
+                        <span class="sidebar-icon"><span class="fas fa-user-plus"></span></span>
+                        <span class="sidebar-text">New Consumer</span>
+                    </span>
+                </a>
+            </li>
+
 
             <li class="nav-item  {% if 'settings' in segment %} active {% endif %}">
                 <a href="{% url 'account:settings' %}" class="nav-link d-flex align-items-center justify-content-between">
