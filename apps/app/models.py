@@ -149,7 +149,7 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
         if self.profile_img and hasattr(self.profile_img, 'url'):
             return self.profile_img.url
         else:
-            return '/media/default/img/profile_img/1.png'
+            return 'https://img.icons8.com/fluency/452/add-user-male.png'
 
     @property
     def get_dict_jugu(self):

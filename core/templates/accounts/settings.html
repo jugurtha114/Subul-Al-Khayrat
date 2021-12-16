@@ -160,9 +160,9 @@
                 <div class="col-12 mb-4">
                     <div class="card shadow border-0 text-center p-0">
                         <div class="profile-cover rounded-top bg-image d-flex justify-content-center align-items-center"  style="
-    background-image: url('{{ user.user_profile.cover_img.url }}');height: 30vh;" ></div>
+    background-image: url('{{ user.user_profile.get_cover_img_url }}');height: 30vh;" ></div>
                         <div class="card-body pb-5">
-                            <img src="{{ user.user_profile.profile_img.url }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            <img src="{{ user.user_profile.get_profile_img_url }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
                             <h4 class="h3">
                                 {{ user.first_name }} {{ user.last_name }}
                             </h4>

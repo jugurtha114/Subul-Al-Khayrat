@@ -20,8 +20,8 @@ def get_enum_jugu(of='package_type'):
 
 class User_Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', null=False, blank=False)
-    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to='users/img/profile_img/', null=True, blank=True, default='default/img/profile_img/1.png')
-    cover_img = models.ImageField(verbose_name='Cover Picture', upload_to='users/img/cover_img/', null=True, blank=True,  default='default/img/cover_img/1.jpg')
+    profile_img = models.ImageField(verbose_name='Profile Picture', upload_to='users/img/profile_img/', null=True, blank=True)
+    cover_img = models.ImageField(verbose_name='Cover Picture', upload_to='users/img/cover_img/', null=True, blank=True)
     phone_number = models.CharField(unique=True, blank=None, null=False, max_length=12)
     birthday = models.DateField(null=True, blank=True)
     #profile_img = models.ImageField(verbose_name='Profile Picture', upload_to = 'consumers/img/profile_img/')
@@ -40,6 +40,19 @@ class User_Profile(models.Model):
     #         ("find_vote", "can find vote"),
     #     )
 
+    @property
+    def get_profile_img_url(self):
+        if self.profile_img and hasattr(self.profile_img, 'url'):
+            return self.profile_img.url
+        else:
+            return 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+
+    @property
+    def get_cover_img_url(self):
+        if self.cover_img and hasattr(self.cover_img, 'url'):
+            return self.cover_img.url
+        else:
+            return 'https://scontent.faae2-2.fna.fbcdn.net/v/t1.6435-9/131664299_211394117180234_9160915970713720252_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=e3f864&_nc_eui2=AeGh-006M_Cw49ilYnbSZE2ExHAzLIAwk-fEcDMsgDCT535YhW9VXTIw-lOnSQi6sqontMR_BK2OE4IQWHNuBx3V&_nc_ohc=cWOeIR06BY0AX_JoAaF&_nc_ht=scontent.faae2-2.fna&oh=00_AT87kUHZ-sE4AfH2Z3dXS5Cy6QaYHh8xsplTpsQAnCh_TA&oe=61DF1E7C'
 
     # @property
     # def get_photo_url(self):

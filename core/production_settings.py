@@ -6,8 +6,8 @@ from pathlib import Path
 import os
 
 
-DEBUG = False
-TEMPLATE_DEBUG =  False
+DEBUG = True
+TEMPLATE_DEBUG =  True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'subul-el-khayarat.herokuapp.com']
 # Quick-start development settings - unsuitable for production

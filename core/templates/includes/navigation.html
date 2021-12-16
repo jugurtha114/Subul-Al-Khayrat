@@ -190,7 +190,7 @@
                         aria-expanded="false">
                         <div class="media d-flex align-items-center">
                             <img class="avatar rounded-circle" alt="Image placeholder"
-                                src="{{ user.user_profile.profile_img.url }}">
+                                src="{{ user.user_profile.get_profile_img_url}}">
                             <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                 <span class="mb-0 font-small fw-bold text-gray-900">
                                     {{request.user.get_full_name}}

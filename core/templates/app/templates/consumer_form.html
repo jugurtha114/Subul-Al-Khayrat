@@ -273,8 +273,7 @@
                         <div class="profile-cover rounded-top bg-image d-flex justify-content-center align-items-center"  style="
     background-image: url('{{ user.user_profile.cover_img.url }}');height: 30vh;" ></div>
                         <div class="card-body pb-5">
-                            <img src="{%if  consumer.get_profile_img_url %} {{consumer.get_profile_img_url}}
-                            {% else %}https://img.icons8.com/fluency/452/add-user-male.png{% endif %} " class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            <img src="{{consumer.get_profile_img_url}}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
                             <h4 class="h3">
                                 {{ consumer.first_name }} {{ consumer.last_name }}
                             </h4>
