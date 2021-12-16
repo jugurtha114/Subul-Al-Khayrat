@@ -28,8 +28,7 @@ from django.forms import inlineformset_factory
 from .models import User_Profile
 
 
-
-class LockedView(TemplateView):
+class LockedView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/locked.html'
 
     def get(self, request):
@@ -47,6 +46,7 @@ class LockedView(TemplateView):
         return render(request, self.template_name)
 
 
+@login_required(login_url="/login/")
 def User_ProfileUpdateView(request):
     #user = User.objects.select_related().get(pk=request.user.id)
     context ={'segment':'settings'}
