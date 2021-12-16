@@ -136,7 +136,7 @@ class Consumer(Extra_jugu, Extra_UserProfile_Info_jugu):
     subscription_status = models.SlugField(max_length=1, verbose_name='Subscription Status', choices=get_enum_jugu('subscription_status'))
     is_responsable = models.BooleanField(null=False, blank=False)
     description = models.CharField(max_length=2000, null=True, blank=True, verbose_name='Description')
-    family = models.ForeignKey('self', on_delete=models.DO_NOTHING,null=True, blank=True,  verbose_name='Responsable')
+    family = models.ForeignKey('self', on_delete=models.CASCADE,null=True, blank=True,  verbose_name='Responsable')
 
     def __str__(self):
         is_res = ''
