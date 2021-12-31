@@ -188,6 +188,7 @@ class Consumer_ListView( ListView):
 class ConsumerCreateView( LoginRequiredMixin, CreateView):
     template_name = 'app/templates/consumer_form.html'
     form_class = ConsumerForm 
+    queryset = Consumer.objects.prefetch_related()
     
     # def get_success_url(self):
     #     return reverse('profiles:detail', kwargs={'slug': self.slug})
@@ -217,7 +218,7 @@ class ConsumerUpdateView(LoginRequiredMixin, UpdateView):
     #model = Consumer
     form_class = ConsumerForm
     template_name = 'app/templates/consumer_form.html'
-    queryset = Consumer.objects.select_related()
+    queryset = Consumer.objects.prefetch_related()
     #context_object_name = 'fd'
     #form_class = ConsumerForm
     success_url = reverse_lazy('app:consumer_list')
